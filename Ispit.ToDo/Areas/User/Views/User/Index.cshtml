@@ -1,0 +1,64 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Ispit.ToDo.Data
+@model IEnumerable<Ispit.ToDo.Models.Todolist>
+
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ApplicationUser user = await UserManager.GetUserAsync(User);
+}
+
+
+<div>
+    <h4>User info</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => user.FirstName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => user.FirstName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => user.LastName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => user.LastName)
+        </dd>
+         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => user.Address)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => user.Address)
+        </dd>
+    </dl>
+</div>
+
+<h1>Tasks list</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) 
+{
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-controller="Todotask" asp-action="Create" asp-route-todoListId="@item.Id">Create new task</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<a asp-area="User" asp-controller="Todolist" asp-action="Create">Create new todo list</a> 
